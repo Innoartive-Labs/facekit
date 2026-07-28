@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: Analyze, Test & Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Dependencies
+        run: dart pub get
+
+      - name: Verify Code Formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Run Static Analysis
+        run: dart analyze --fatal-infos
+
+      - name: Run Test Suite
+        run: dart test
+
+      - name: Run Accuracy Benchmark
+        run: dart run test/benchmarks/accuracy_benchmark.dart
+
+      - name: Validate Pub Package
+        run: dart pub publish --dry-run
+
