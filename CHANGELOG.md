@@ -1,6 +1,12 @@
 # CHANGELOG
 
+## 1.0.1
+
+- Updated license text to canonical OSI-approved MIT License format.
+- Updated documentation layout and GitHub repository URL.
+
 ## 1.0.0
+
 
 - Initial release of **FaceKit**: 100% pure Dart offline facial recognition engine.
 - **Detector**: Multi-scale image pyramid ($24 \times 24$ sliding window) with IoU NMS and adaptive contrast fallback pass.
