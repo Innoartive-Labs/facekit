@@ -26,11 +26,27 @@ class LandmarkDetector {
     // Nose Tip / Nostrils (31..35)
     [0.40, 0.63], [0.45, 0.65], [0.50, 0.66], [0.55, 0.65], [0.60, 0.63],
     // Right Eye (36..41)
-    [0.26, 0.35], [0.31, 0.32], [0.37, 0.32], [0.42, 0.36], [0.37, 0.39], [0.31, 0.39],
+    [0.26, 0.35],
+    [0.31, 0.32],
+    [0.37, 0.32],
+    [0.42, 0.36],
+    [0.37, 0.39],
+    [0.31, 0.39],
     // Left Eye (42..47)
-    [0.58, 0.36], [0.63, 0.32], [0.69, 0.32], [0.74, 0.35], [0.69, 0.39], [0.63, 0.39],
+    [0.58, 0.36],
+    [0.63, 0.32],
+    [0.69, 0.32],
+    [0.74, 0.35],
+    [0.69, 0.39],
+    [0.63, 0.39],
     // Outer Lip (48..59)
-    [0.34, 0.76], [0.41, 0.73], [0.46, 0.72], [0.50, 0.73], [0.54, 0.72], [0.59, 0.73], [0.66, 0.76],
+    [0.34, 0.76],
+    [0.41, 0.73],
+    [0.46, 0.72],
+    [0.50, 0.73],
+    [0.54, 0.72],
+    [0.59, 0.73],
+    [0.66, 0.76],
     [0.59, 0.82], [0.54, 0.84], [0.50, 0.85], [0.46, 0.84], [0.41, 0.82],
     // Inner Lip (60..67)
     [0.37, 0.76], [0.46, 0.75], [0.50, 0.75], [0.54, 0.75], [0.63, 0.76],
@@ -38,7 +54,8 @@ class LandmarkDetector {
   ];
 
   /// Creates a [LandmarkDetector].
-  LandmarkDetector({FaceKitConfig? config}) : config = config ?? FaceKitConfig.defaultConfig;
+  LandmarkDetector({FaceKitConfig? config})
+    : config = config ?? FaceKitConfig.defaultConfig;
 
   /// Detects facial landmarks for a given [face] in the input [image].
   List<FaceLandmark> detectLandmarks(FaceImage image, Face face) {
@@ -133,13 +150,7 @@ class LandmarkDetector {
         absY += lShiftY * 0.5;
       }
 
-      landmarks.add(
-        FaceLandmark(
-          index: i,
-          x: absX,
-          y: absY,
-        ),
-      );
+      landmarks.add(FaceLandmark(index: i, x: absX, y: absY));
     }
 
     return landmarks;
@@ -166,14 +177,7 @@ class LandmarkDetector {
       final absX = bl + (basePt[0] + offsetX) * bw;
       final absY = bt + (basePt[1] + offsetY) * bh;
 
-      meshLandmarks.add(
-        FaceLandmark(
-          index: i,
-          x: absX,
-          y: absY,
-          z: depthZ,
-        ),
-      );
+      meshLandmarks.add(FaceLandmark(index: i, x: absX, y: absY, z: depthZ));
     }
 
     return meshLandmarks;

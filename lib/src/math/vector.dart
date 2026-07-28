@@ -57,7 +57,8 @@ class Vector {
     final mainLoopEnd = length & ~3;
     var i = 0;
     for (; i < mainLoopEnd; i += 4) {
-      sum += a[i] * b[i] +
+      sum +=
+          a[i] * b[i] +
           a[i + 1] * b[i + 1] +
           a[i + 2] * b[i + 2] +
           a[i + 3] * b[i + 3];
@@ -88,7 +89,6 @@ class Vector {
     }
     return result;
   }
-
 
   /// Vector addition (element-wise).
   Vector add(Vector other) {

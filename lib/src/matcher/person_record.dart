@@ -24,8 +24,8 @@ class PersonRecord {
     required this.embedding,
     Map<String, dynamic>? metadata,
     DateTime? registeredAt,
-  })  : metadata = metadata ?? {},
-        registeredAt = registeredAt ?? DateTime.now();
+  }) : metadata = metadata ?? {},
+       registeredAt = registeredAt ?? DateTime.now();
 
   @override
   bool operator ==(Object other) =>

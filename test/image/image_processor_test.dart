@@ -5,10 +5,7 @@ import 'package:test/test.dart';
 void main() {
   group('ImageProcessor Tests', () {
     test('bilinear resize scales 2x2 image to 4x4', () {
-      final bytes = Uint8List.fromList([
-        10, 20,
-        30, 40,
-      ]);
+      final bytes = Uint8List.fromList([10, 20, 30, 40]);
       final gray = FaceImage.fromGrayscale(bytes, 2, 2);
       final resized = ImageProcessor.resizeBilinear(gray, 4, 4);
 
@@ -20,10 +17,22 @@ void main() {
 
     test('crop extracts correct sub-rectangle', () {
       final bytes = Uint8List.fromList([
-        1, 2, 3, 4,
-        5, 6, 7, 8,
-        9, 10, 11, 12,
-        13, 14, 15, 16,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
       ]);
       final img = FaceImage.fromGrayscale(bytes, 4, 4);
       final cropped = ImageProcessor.crop(img, 1, 1, 2, 2);
@@ -39,7 +48,14 @@ void main() {
     test('pad adds background border correctly', () {
       final bytes = Uint8List.fromList([255]);
       final img = FaceImage.fromGrayscale(bytes, 1, 1);
-      final padded = ImageProcessor.pad(img, 1, 1, 1, 1, fillColor: const Pixel.gray(0));
+      final padded = ImageProcessor.pad(
+        img,
+        1,
+        1,
+        1,
+        1,
+        fillColor: const Pixel.gray(0),
+      );
 
       expect(padded.width, equals(3));
       expect(padded.height, equals(3));
@@ -48,10 +64,7 @@ void main() {
     });
 
     test('histogram equalization enhances contrast', () {
-      final bytes = Uint8List.fromList([
-        50, 50,
-        50, 200,
-      ]);
+      final bytes = Uint8List.fromList([50, 50, 50, 200]);
       final img = FaceImage.fromGrayscale(bytes, 2, 2);
       final eq = ImageProcessor.histogramEqualization(img);
 
@@ -63,14 +76,38 @@ void main() {
 
     test('gaussian blur applies spatial smoothing', () {
       final bytes = Uint8List.fromList([
-        0, 0, 0, 0, 0,
-        0, 255, 255, 255, 0,
-        0, 255, 255, 255, 0,
-        0, 255, 255, 255, 0,
-        0, 0, 0, 0, 0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        255,
+        255,
+        255,
+        0,
+        0,
+        255,
+        255,
+        255,
+        0,
+        0,
+        255,
+        255,
+        255,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
       ]);
       final img = FaceImage.fromGrayscale(bytes, 5, 5);
-      final blurred = ImageProcessor.gaussianBlur(img, kernelSize: 3, sigma: 1.0);
+      final blurred = ImageProcessor.gaussianBlur(
+        img,
+        kernelSize: 3,
+        sigma: 1.0,
+      );
 
       expect(blurred.width, equals(5));
       expect(blurred.height, equals(5));
@@ -80,10 +117,22 @@ void main() {
 
     test('sobel edge detection detects intensity boundaries', () {
       final bytes = Uint8List.fromList([
-        0, 0, 255, 255,
-        0, 0, 255, 255,
-        0, 0, 255, 255,
-        0, 0, 255, 255,
+        0,
+        0,
+        255,
+        255,
+        0,
+        0,
+        255,
+        255,
+        0,
+        0,
+        255,
+        255,
+        0,
+        0,
+        255,
+        255,
       ]);
       final img = FaceImage.fromGrayscale(bytes, 4, 4);
       final sobel = ImageProcessor.sobelEdgeDetection(img);
@@ -95,11 +144,7 @@ void main() {
     });
 
     test('integral image evaluates O(1) rectangular region sum', () {
-      final bytes = Uint8List.fromList([
-        1, 2, 3,
-        4, 5, 6,
-        7, 8, 9,
-      ]);
+      final bytes = Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9]);
       final img = FaceImage.fromGrayscale(bytes, 3, 3);
       final integral = IntegralImage.fromImage(img);
 
@@ -112,10 +157,7 @@ void main() {
     });
 
     test('toTensor converts FaceImage to 3D Tensor', () {
-      final bytes = Uint8List.fromList([
-        255, 0, 0,
-        0, 255, 0,
-      ]);
+      final bytes = Uint8List.fromList([255, 0, 0, 0, 255, 0]);
       final img = FaceImage.fromRgb(bytes, 2, 1);
       final tensor = ImageProcessor.toTensor(img, normalizeZeroToOne: true);
 

@@ -2,7 +2,9 @@ import 'dart:typed_data';
 import 'package:facekit/facekit.dart';
 
 void main() async {
-  print('=== FaceKit Pure Dart Offline Facial Recognition Engine Example ===\n');
+  print(
+    '=== FaceKit Pure Dart Offline Facial Recognition Engine Example ===\n',
+  );
 
   // 1. Initialize FaceKit Engine
   final facekit = FaceKit();
@@ -47,7 +49,9 @@ void main() async {
 
   final newEngine = FaceKit();
   final importedRecord = await newEngine.importPersonBinary(binaryData);
-  print('Imported person into clean engine: ${importedRecord.personId} (${importedRecord.name})\n');
+  print(
+    'Imported person into clean engine: ${importedRecord.personId} (${importedRecord.name})\n',
+  );
 
   print('All 14 FaceKit execution phases fully verified!');
 }

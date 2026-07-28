@@ -34,5 +34,6 @@ class FaceLandmark {
   int get hashCode => Object.hash(index, x, y, z);
 
   @override
-  String toString() => 'Landmark#$index(${x.toStringAsFixed(1)}, ${y.toStringAsFixed(1)})';
+  String toString() =>
+      'Landmark#$index(${x.toStringAsFixed(1)}, ${y.toStringAsFixed(1)})';
 }

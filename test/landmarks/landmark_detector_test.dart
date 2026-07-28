@@ -6,13 +6,12 @@ void main() {
   group('LandmarkDetector Tests', () {
     test('detects 68 facial landmarks correctly', () {
       final img = FaceImage.fromGrayscale(Uint8List(100 * 100), 100, 100);
-      final face = Face(
-        boundingBox: Rect(10, 10, 80, 80),
-        confidence: 0.9,
-      );
+      final face = Face(boundingBox: Rect(10, 10, 80, 80), confidence: 0.9);
 
       final detector = LandmarkDetector(
-        config: const FaceKitConfig(landmarkModel: LandmarkModelType.landmarks68),
+        config: const FaceKitConfig(
+          landmarkModel: LandmarkModelType.landmarks68,
+        ),
       );
       final landmarks = detector.detectLandmarks(img, face);
 
@@ -30,13 +29,12 @@ void main() {
 
     test('detects 468 dense 3D mesh landmarks when configured', () {
       final img = FaceImage.fromGrayscale(Uint8List(100 * 100), 100, 100);
-      final face = Face(
-        boundingBox: Rect(10, 10, 80, 80),
-        confidence: 0.95,
-      );
+      final face = Face(boundingBox: Rect(10, 10, 80, 80), confidence: 0.95);
 
       final detector = LandmarkDetector(
-        config: const FaceKitConfig(landmarkModel: LandmarkModelType.landmarks468),
+        config: const FaceKitConfig(
+          landmarkModel: LandmarkModelType.landmarks468,
+        ),
       );
       final meshLandmarks = detector.detectLandmarks(img, face);
 

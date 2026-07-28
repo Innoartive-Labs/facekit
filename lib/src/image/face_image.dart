@@ -33,10 +33,10 @@ class Pixel {
 
   /// Creates a grayscale [Pixel].
   const Pixel.gray(int luminance)
-      : r = luminance,
-        g = luminance,
-        b = luminance,
-        a = 255;
+    : r = luminance,
+      g = luminance,
+      b = luminance,
+      a = 255;
 
   @override
   String toString() => 'Pixel(R:$r, G:$g, B:$b, A:$a)';
@@ -71,7 +71,9 @@ class FaceImage {
     required this.channels,
   }) : rowStride = width * channels {
     if (width <= 0 || height <= 0) {
-      throw InvalidImageException('Image dimensions must be positive ($width x $height)');
+      throw InvalidImageException(
+        'Image dimensions must be positive ($width x $height)',
+      );
     }
     final expectedBytes = width * height * channels;
     if (buffer.length < expectedBytes) {
@@ -153,14 +155,21 @@ class FaceImage {
   /// Gets the [Pixel] color value at position ([x], [y]).
   Pixel getPixel(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
-      throw ValidationException('Pixel coordinates ($x, $y) out of image bounds ($width x $height)');
+      throw ValidationException(
+        'Pixel coordinates ($x, $y) out of image bounds ($width x $height)',
+      );
     }
     final index = y * rowStride + x * channels;
     switch (format) {
       case ImageFormat.rgb:
         return Pixel(buffer[index], buffer[index + 1], buffer[index + 2]);
       case ImageFormat.rgba:
-        return Pixel(buffer[index], buffer[index + 1], buffer[index + 2], buffer[index + 3]);
+        return Pixel(
+          buffer[index],
+          buffer[index + 1],
+          buffer[index + 2],
+          buffer[index + 3],
+        );
       case ImageFormat.grayscale:
         return Pixel.gray(buffer[index]);
     }
@@ -169,7 +178,9 @@ class FaceImage {
   /// Sets the [Pixel] color value at position ([x], [y]).
   void setPixel(int x, int y, Pixel pixel) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
-      throw ValidationException('Pixel coordinates ($x, $y) out of image bounds ($width x $height)');
+      throw ValidationException(
+        'Pixel coordinates ($x, $y) out of image bounds ($width x $height)',
+      );
     }
     final index = y * rowStride + x * channels;
     switch (format) {
@@ -203,5 +214,6 @@ class FaceImage {
   }
 
   @override
-  String toString() => 'FaceImage(${width}x$height, $format, ${buffer.length} bytes)';
+  String toString() =>
+      'FaceImage(${width}x$height, $format, ${buffer.length} bytes)';
 }

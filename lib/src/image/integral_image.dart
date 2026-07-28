@@ -15,7 +15,9 @@ class IntegralImage {
 
   /// Creates an [IntegralImage] from a grayscale [FaceImage].
   factory IntegralImage.fromImage(FaceImage image) {
-    final gray = image.format == ImageFormat.grayscale ? image : image.toGrayscale();
+    final gray = image.format == ImageFormat.grayscale
+        ? image
+        : image.toGrayscale();
     final w = gray.width;
     final h = gray.height;
     final tableWidth = w + 1;
@@ -44,7 +46,9 @@ class IntegralImage {
   /// Evaluates the total sum of pixel values within rectangle [x1, y1] to [x2, y2] (inclusive) in $O(1)$ time.
   int getSum(int x1, int y1, int x2, int y2) {
     if (x1 < 0 || y1 < 0 || x2 >= width || y2 >= height || x1 > x2 || y1 > y2) {
-      throw ValidationException('Invalid integral rectangle bounds: ($x1,$y1) to ($x2,$y2) on ${width}x$height image');
+      throw ValidationException(
+        'Invalid integral rectangle bounds: ($x1,$y1) to ($x2,$y2) on ${width}x$height image',
+      );
     }
     final tw = width + 1;
     final rx2 = x2 + 1;

@@ -4,7 +4,9 @@ import 'package:facekit/facekit.dart';
 void main() async {
   print('=== FaceKit End-to-End Performance Benchmark ===\n');
 
-  final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+  final facekit = FaceKit(
+    config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+  );
 
   // Build synthetic test face image (48x48)
   const size = 48;
@@ -33,7 +35,9 @@ void main() async {
   }
   regSw.stop();
   final regMs = regSw.elapsedMilliseconds / regIters;
-  print('Registration Latency (Detect -> Landmark -> Align -> Embed): ${regMs.toStringAsFixed(2)} ms/subject');
+  print(
+    'Registration Latency (Detect -> Landmark -> Align -> Embed): ${regMs.toStringAsFixed(2)} ms/subject',
+  );
 
   // 2. Recognition Query Latency Benchmark
   final recSw = Stopwatch()..start();
@@ -43,7 +47,9 @@ void main() async {
   }
   recSw.stop();
   final recMs = recSw.elapsedMilliseconds / recIters;
-  print('Recognition Latency (Query -> Match 10 Registered): ${recMs.toStringAsFixed(2)} ms/query');
+  print(
+    'Recognition Latency (Query -> Match 10 Registered): ${recMs.toStringAsFixed(2)} ms/query',
+  );
 
   // 3. Binary Serialization (.face) Throughput Benchmark
   final record = facekit.matcher.getRecord('BENCH_0')!;
@@ -55,7 +61,9 @@ void main() async {
   }
   serSw.stop();
   final serMs = serSw.elapsedMilliseconds / serIters;
-  print('.face Serialization + Deserialization Throughput: ${serMs.toStringAsFixed(3)} ms/op');
+  print(
+    '.face Serialization + Deserialization Throughput: ${serMs.toStringAsFixed(3)} ms/op',
+  );
 
   print('\nPerformance benchmarks completed successfully!');
 }

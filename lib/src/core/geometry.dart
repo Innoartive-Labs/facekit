@@ -18,7 +18,9 @@ class Rect {
   /// Creates a [Rect] from left, top, width, and height.
   Rect(this.left, this.top, this.width, this.height) {
     if (width < 0 || height < 0) {
-      throw const ValidationException('Rect width and height cannot be negative');
+      throw const ValidationException(
+        'Rect width and height cannot be negative',
+      );
     }
   }
 
@@ -70,5 +72,6 @@ class Rect {
   int get hashCode => Object.hash(left, top, width, height);
 
   @override
-  String toString() => 'Rect(L:${left.toStringAsFixed(1)}, T:${top.toStringAsFixed(1)}, W:${width.toStringAsFixed(1)}, H:${height.toStringAsFixed(1)})';
+  String toString() =>
+      'Rect(L:${left.toStringAsFixed(1)}, T:${top.toStringAsFixed(1)}, W:${width.toStringAsFixed(1)}, H:${height.toStringAsFixed(1)})';
 }

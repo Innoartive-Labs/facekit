@@ -12,7 +12,8 @@ class FaceMatcher {
   final Map<String, PersonRecord> _registry = {};
 
   /// Creates a [FaceMatcher].
-  FaceMatcher({FaceKitConfig? config}) : config = config ?? FaceKitConfig.defaultConfig;
+  FaceMatcher({FaceKitConfig? config})
+    : config = config ?? FaceKitConfig.defaultConfig;
 
   /// Returns total number of registered person records.
   int get registeredCount => _registry.length;
@@ -26,7 +27,9 @@ class FaceMatcher {
       throw const ValidationException('PersonId and Name cannot be empty');
     }
     if (_registry.containsKey(record.personId) && !allowUpdate) {
-      throw DatabaseException('PersonId ${record.personId} is already registered');
+      throw DatabaseException(
+        'PersonId ${record.personId} is already registered',
+      );
     }
     _registry[record.personId] = record;
   }
@@ -49,7 +52,9 @@ class FaceMatcher {
     final metric = config.distanceMetric;
 
     PersonRecord? bestRecord;
-    double bestScore = metric == FaceDistanceMetric.cosine ? -1.0 : double.infinity;
+    double bestScore = metric == FaceDistanceMetric.cosine
+        ? -1.0
+        : double.infinity;
 
     for (final record in _registry.values) {
       if (metric == FaceDistanceMetric.cosine) {
@@ -76,7 +81,9 @@ class FaceMatcher {
         : bestScore <= matchThreshold;
 
     if (isMatch) {
-      final conf = metric == FaceDistanceMetric.cosine ? bestScore : (1.0 / (1.0 + bestScore));
+      final conf = metric == FaceDistanceMetric.cosine
+          ? bestScore
+          : (1.0 / (1.0 + bestScore));
       return MatchResult(
         matched: true,
         personId: bestRecord.personId,
@@ -88,7 +95,9 @@ class FaceMatcher {
     }
 
     return MatchResult.unknown(
-      metric == FaceDistanceMetric.cosine ? bestScore : (1.0 / (1.0 + bestScore)),
+      metric == FaceDistanceMetric.cosine
+          ? bestScore
+          : (1.0 / (1.0 + bestScore)),
     );
   }
 

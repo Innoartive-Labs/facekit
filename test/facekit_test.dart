@@ -20,7 +20,10 @@ void main() {
 
       facekit.logger.debug('Testing logger output');
       expect(facekit.config.detectionThreshold, equals(0.85));
-      expect(logs, contains(predicate<String>((s) => s.contains('Testing logger output'))));
+      expect(
+        logs,
+        contains(predicate<String>((s) => s.contains('Testing logger output'))),
+      );
     });
   });
 }

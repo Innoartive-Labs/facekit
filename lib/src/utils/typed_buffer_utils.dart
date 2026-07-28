@@ -6,7 +6,9 @@ abstract class TypedBufferUtils {
   /// Allocates a contiguous [Uint8List] of specified [bytes].
   static Uint8List allocateUint8(int bytes) {
     if (bytes <= 0) {
-      throw ValidationException('Buffer byte allocation size must be positive: $bytes');
+      throw ValidationException(
+        'Buffer byte allocation size must be positive: $bytes',
+      );
     }
     return Uint8List(bytes);
   }
@@ -14,7 +16,9 @@ abstract class TypedBufferUtils {
   /// Allocates a contiguous [Float32List] of specified [elements].
   static Float32List allocateFloat32(int elements) {
     if (elements <= 0) {
-      throw ValidationException('Float array length must be positive: $elements');
+      throw ValidationException(
+        'Float array length must be positive: $elements',
+      );
     }
     return Float32List(elements);
   }
@@ -28,10 +32,16 @@ abstract class TypedBufferUtils {
     int? length,
   }) {
     final len = length ?? (source.length - sourceOffset);
-    if (sourceOffset + len > source.length || destinationOffset + len > destination.length) {
+    if (sourceOffset + len > source.length ||
+        destinationOffset + len > destination.length) {
       throw const ValidationException('Buffer copy offset out of bounds');
     }
-    destination.setRange(destinationOffset, destinationOffset + len, source, sourceOffset);
+    destination.setRange(
+      destinationOffset,
+      destinationOffset + len,
+      source,
+      sourceOffset,
+    );
   }
 
   /// Converts an RGBA byte buffer to a 3-channel RGB buffer.

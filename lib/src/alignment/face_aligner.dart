@@ -22,13 +22,19 @@ class FaceAligner {
 
   /// Creates a [FaceAligner].
   FaceAligner({FaceKitConfig? config})
-      : config = config ?? FaceKitConfig.defaultConfig,
-        targetSize = (config ?? FaceKitConfig.defaultConfig).targetFaceSize;
+    : config = config ?? FaceKitConfig.defaultConfig,
+      targetSize = (config ?? FaceKitConfig.defaultConfig).targetFaceSize;
 
   /// Aligns, levels eyes, scales, and crops the detected [face] into a normalized 112x112 [FaceImage].
-  FaceImage alignFace(FaceImage image, Face face, List<FaceLandmark> landmarks) {
+  FaceImage alignFace(
+    FaceImage image,
+    Face face,
+    List<FaceLandmark> landmarks,
+  ) {
     if (landmarks.length < 48) {
-      throw ValidationException('Face alignment requires at least 48 landmark points, got ${landmarks.length}');
+      throw ValidationException(
+        'Face alignment requires at least 48 landmark points, got ${landmarks.length}',
+      );
     }
 
     // 1. Compute right eye (points 36..41) and left eye (points 42..47) centers
@@ -64,10 +70,16 @@ class FaceAligner {
     final scaledH = (rotatedImg.height * scale).round();
 
     if (scaledW <= 0 || scaledH <= 0) {
-      throw const ValidationException('Calculated face scale resulted in invalid dimensions');
+      throw const ValidationException(
+        'Calculated face scale resulted in invalid dimensions',
+      );
     }
 
-    final scaledImg = ImageProcessor.resizeBilinear(rotatedImg, scaledW, scaledH);
+    final scaledImg = ImageProcessor.resizeBilinear(
+      rotatedImg,
+      scaledW,
+      scaledH,
+    );
 
     // 5. Center crop 112x112 around eye midpoint
     final eyeMidX = (rEyeX + lEyeX) / 2.0 * scale;
@@ -85,7 +97,13 @@ class FaceAligner {
     final actualCropW = math.min(targetSize, scaledImg.width - cropX);
     final actualCropH = math.min(targetSize, scaledImg.height - cropY);
 
-    final cropped = ImageProcessor.crop(scaledImg, cropX, cropY, actualCropW, actualCropH);
+    final cropped = ImageProcessor.crop(
+      scaledImg,
+      cropX,
+      cropY,
+      actualCropW,
+      actualCropH,
+    );
 
     // Pad if crop edge reached image boundary
     if (cropped.width < targetSize || cropped.height < targetSize) {

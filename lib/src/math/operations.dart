@@ -15,7 +15,9 @@ abstract class MathOperations {
     Vector? bias,
   }) {
     if (input.shape.length != 3) {
-      throw ValidationException('Conv2D input tensor must be 3D [Channels, Height, Width], got ${input.shape}');
+      throw ValidationException(
+        'Conv2D input tensor must be 3D [Channels, Height, Width], got ${input.shape}',
+      );
     }
     if (kernel.shape.length != 4) {
       throw ValidationException(
@@ -38,14 +40,18 @@ abstract class MathOperations {
       );
     }
     if (bias != null && bias.length != outC) {
-      throw ValidationException('Bias length (${bias.length}) must match OutChannels ($outC)');
+      throw ValidationException(
+        'Bias length (${bias.length}) must match OutChannels ($outC)',
+      );
     }
 
     final outH = ((inH - kH + 2 * padding) ~/ stride) + 1;
     final outW = ((inW - kW + 2 * padding) ~/ stride) + 1;
 
     if (outH <= 0 || outW <= 0) {
-      throw ValidationException('Invalid output dimensions for Conv2D: $outH x $outW');
+      throw ValidationException(
+        'Invalid output dimensions for Conv2D: $outH x $outW',
+      );
     }
 
     final output = Tensor([outC, outH, outW]);
@@ -79,13 +85,11 @@ abstract class MathOperations {
   }
 
   /// 2D Max Pooling operation over a 3D [Tensor] `[Channels, Height, Width]`.
-  static Tensor maxPool2d(
-    Tensor input, {
-    int poolSize = 2,
-    int stride = 2,
-  }) {
+  static Tensor maxPool2d(Tensor input, {int poolSize = 2, int stride = 2}) {
     if (input.shape.length != 3) {
-      throw const ValidationException('MaxPool2D input tensor must be 3D [Channels, Height, Width]');
+      throw const ValidationException(
+        'MaxPool2D input tensor must be 3D [Channels, Height, Width]',
+      );
     }
 
     final inC = input.shape[0];
@@ -96,7 +100,9 @@ abstract class MathOperations {
     final outW = ((inW - poolSize) ~/ stride) + 1;
 
     if (outH <= 0 || outW <= 0) {
-      throw ValidationException('Invalid output dimensions for MaxPool2D: $outH x $outW');
+      throw ValidationException(
+        'Invalid output dimensions for MaxPool2D: $outH x $outW',
+      );
     }
 
     final output = Tensor([inC, outH, outW]);
@@ -126,13 +132,11 @@ abstract class MathOperations {
   }
 
   /// 2D Average Pooling operation over a 3D [Tensor] `[Channels, Height, Width]`.
-  static Tensor avgPool2d(
-    Tensor input, {
-    int poolSize = 2,
-    int stride = 2,
-  }) {
+  static Tensor avgPool2d(Tensor input, {int poolSize = 2, int stride = 2}) {
     if (input.shape.length != 3) {
-      throw const ValidationException('AvgPool2D input tensor must be 3D [Channels, Height, Width]');
+      throw const ValidationException(
+        'AvgPool2D input tensor must be 3D [Channels, Height, Width]',
+      );
     }
 
     final inC = input.shape[0];
@@ -143,7 +147,9 @@ abstract class MathOperations {
     final outW = ((inW - poolSize) ~/ stride) + 1;
 
     if (outH <= 0 || outW <= 0) {
-      throw ValidationException('Invalid output dimensions for AvgPool2D: $outH x $outW');
+      throw ValidationException(
+        'Invalid output dimensions for AvgPool2D: $outH x $outW',
+      );
     }
 
     final output = Tensor([inC, outH, outW]);

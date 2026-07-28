@@ -54,7 +54,10 @@ class JsonDatabase implements FaceDatabaseAdapter {
     final decoded = jsonDecode(jsonStr) as List;
     for (final item in decoded) {
       final map = item as Map<String, dynamic>;
-      final embeddingList = (map['embedding'] as List).cast<num>().map((e) => e.toDouble()).toList();
+      final embeddingList = (map['embedding'] as List)
+          .cast<num>()
+          .map((e) => e.toDouble())
+          .toList();
       final record = PersonRecord(
         personId: map['personId'] as String,
         name: map['name'] as String,

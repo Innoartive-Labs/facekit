@@ -17,9 +17,9 @@ class Tensor {
 
   /// Creates a zero-initialized [Tensor] with the given [shape].
   Tensor(this.shape)
-      : strides = _computeStrides(shape),
-        size = _computeSize(shape),
-        data = Float32List(_computeSize(shape)) {
+    : strides = _computeStrides(shape),
+      size = _computeSize(shape),
+      data = Float32List(_computeSize(shape)) {
     if (shape.isEmpty) {
       throw const ValidationException('Tensor shape cannot be empty');
     }
@@ -27,8 +27,8 @@ class Tensor {
 
   /// Creates a [Tensor] wrapping a flat [Float32List] buffer.
   Tensor.fromFloat32List(this.shape, this.data)
-      : strides = _computeStrides(shape),
-        size = _computeSize(shape) {
+    : strides = _computeStrides(shape),
+      size = _computeSize(shape) {
     if (shape.isEmpty) {
       throw const ValidationException('Tensor shape cannot be empty');
     }
@@ -43,7 +43,9 @@ class Tensor {
     var total = 1;
     for (final dim in shape) {
       if (dim <= 0) {
-        throw ValidationException('Tensor shape dimensions must be positive: $shape');
+        throw ValidationException(
+          'Tensor shape dimensions must be positive: $shape',
+        );
       }
       total *= dim;
     }
@@ -64,13 +66,17 @@ class Tensor {
   /// Computes flat 1D buffer index from multi-dimensional [indices].
   int getFlatIndex(List<int> indices) {
     if (indices.length != shape.length) {
-      throw ValidationException('Index rank (${indices.length}) does not match tensor rank (${shape.length})');
+      throw ValidationException(
+        'Index rank (${indices.length}) does not match tensor rank (${shape.length})',
+      );
     }
     var flatIndex = 0;
     for (var i = 0; i < indices.length; i++) {
       final idx = indices[i];
       if (idx < 0 || idx >= shape[i]) {
-        throw ValidationException('Index $idx out of bounds for dimension $i (size ${shape[i]})');
+        throw ValidationException(
+          'Index $idx out of bounds for dimension $i (size ${shape[i]})',
+        );
       }
       flatIndex += idx * strides[i];
     }
@@ -81,7 +87,8 @@ class Tensor {
   double get(List<int> indices) => data[getFlatIndex(indices)];
 
   /// Sets the value at multi-dimensional [indices].
-  void set(List<int> indices, double value) => data[getFlatIndex(indices)] = value;
+  void set(List<int> indices, double value) =>
+      data[getFlatIndex(indices)] = value;
 
   /// Fast accessor for 3D tensor: `[c, h, w]`.
   double get3D(int c, int h, int w) {
@@ -107,7 +114,9 @@ class Tensor {
   Tensor reshape(List<int> newShape) {
     final newSize = _computeSize(newShape);
     if (newSize != size) {
-      throw ValidationException('Cannot reshape tensor of size $size into size $newSize');
+      throw ValidationException(
+        'Cannot reshape tensor of size $size into size $newSize',
+      );
     }
     return Tensor.fromFloat32List(newShape, data);
   }

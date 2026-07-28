@@ -15,12 +15,13 @@ class FaceEmbedder {
 
   /// Creates a [FaceEmbedder].
   FaceEmbedder({FaceKitConfig? config})
-      : config = config ?? FaceKitConfig.defaultConfig,
-        embeddingDim = (config ?? FaceKitConfig.defaultConfig).embeddingDimension;
+    : config = config ?? FaceKitConfig.defaultConfig,
+      embeddingDim = (config ?? FaceKitConfig.defaultConfig).embeddingDimension;
 
   /// Extracts a 128-dimensional L2-normalized feature embedding from a 112x112 aligned [faceImage].
   FaceEmbedding extractEmbedding(FaceImage faceImage) {
-    if (faceImage.width != config.targetFaceSize || faceImage.height != config.targetFaceSize) {
+    if (faceImage.width != config.targetFaceSize ||
+        faceImage.height != config.targetFaceSize) {
       throw ValidationException(
         'FaceEmbedder requires aligned ${config.targetFaceSize}x${config.targetFaceSize} image, got ${faceImage.width}x${faceImage.height}',
       );
@@ -36,5 +37,3 @@ class FaceEmbedder {
     return FaceEmbedding(normalized.data);
   }
 }
-
-

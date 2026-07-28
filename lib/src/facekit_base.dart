@@ -29,10 +29,10 @@ class FaceKit {
 
   /// Creates a new [FaceKit] engine instance with optional [config].
   FaceKit({FaceKitConfig? config})
-      : config = config ?? FaceKitConfig.defaultConfig,
-        logger = FaceKitLogger(
-          level: (config ?? FaceKitConfig.defaultConfig).logLevel,
-        ) {
+    : config = config ?? FaceKitConfig.defaultConfig,
+      logger = FaceKitLogger(
+        level: (config ?? FaceKitConfig.defaultConfig).logLevel,
+      ) {
     _detector = FaceDetector(config: this.config);
     _landmarkDetector = LandmarkDetector(config: this.config);
     _aligner = FaceAligner(config: this.config);
@@ -60,7 +60,9 @@ class FaceKit {
 
     final faces = _detector.detectFaces(image, maxFaces: 1);
     if (faces.isEmpty) {
-      throw const FaceDetectionException('No face detected in provided registration image');
+      throw const FaceDetectionException(
+        'No face detected in provided registration image',
+      );
     }
     final face = faces.first;
 
@@ -101,7 +103,10 @@ class FaceKit {
   }
 
   /// Recognizes all faces present in a multi-face [image].
-  Future<List<MatchResult>> recognizeMultiple(FaceImage image, {double? threshold}) async {
+  Future<List<MatchResult>> recognizeMultiple(
+    FaceImage image, {
+    double? threshold,
+  }) async {
     final faces = _detector.detectFaces(image);
     final results = <MatchResult>[];
 
@@ -138,7 +143,10 @@ class FaceKit {
     if (newImage != null) {
       final faces = _detector.detectFaces(newImage, maxFaces: 1);
       if (faces.isNotEmpty) {
-        final landmarks = _landmarkDetector.detectLandmarks(newImage, faces.first);
+        final landmarks = _landmarkDetector.detectLandmarks(
+          newImage,
+          faces.first,
+        );
         final aligned = _aligner.alignFace(newImage, faces.first, landmarks);
         embedding = _embedder.extractEmbedding(aligned);
       }

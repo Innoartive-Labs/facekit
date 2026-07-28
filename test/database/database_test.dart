@@ -43,7 +43,9 @@ void main() {
     });
 
     test('FaceKit high-level JSON and Binary database import/export', () async {
-      final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
       final record = PersonRecord(
         personId: 'EMP100',
         name: 'Alice Cooper',
@@ -54,15 +56,22 @@ void main() {
 
       // JSON Export/Import
       final jsonExport = await facekit.exportDatabaseJson();
-      final facekit2 = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit2 = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
       await facekit2.importDatabaseJson(jsonExport);
 
       expect(facekit2.registeredCount, equals(1));
-      expect(facekit2.matcher.getRecord('EMP100')?.name, equals('Alice Cooper'));
+      expect(
+        facekit2.matcher.getRecord('EMP100')?.name,
+        equals('Alice Cooper'),
+      );
 
       // Binary Export/Import
       final binaryExport = await facekit.exportPersonBinary('EMP100');
-      final facekit3 = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit3 = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
       final importedRecord = await facekit3.importPersonBinary(binaryExport);
 
       expect(importedRecord.personId, equals('EMP100'));

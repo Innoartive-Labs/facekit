@@ -5,7 +5,9 @@ import 'package:test/test.dart';
 void main() {
   group('FaceMatcher and FaceKit High-Level API Tests', () {
     test('registers subject and recognizes correctly', () async {
-      final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
 
       // Build synthetic face pattern image (48x48)
       const size = 48;
@@ -43,7 +45,9 @@ void main() {
     });
 
     test('returns UNKNOWN for unregistered face image when empty', () async {
-      final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
       final img = FaceImage.fromGrayscale(Uint8List(48 * 48), 48, 48);
 
       final result = await facekit.recognize(img);
@@ -52,9 +56,15 @@ void main() {
     });
 
     test('deletes registered person', () async {
-      final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
       final emb = FaceEmbedding(Float32List(128));
-      final record = PersonRecord(personId: 'EMP002', name: 'Jane Doe', embedding: emb);
+      final record = PersonRecord(
+        personId: 'EMP002',
+        name: 'Jane Doe',
+        embedding: emb,
+      );
 
       facekit.matcher.addRecord(record);
       expect(facekit.registeredCount, equals(1));
@@ -65,7 +75,9 @@ void main() {
     });
 
     test('recognizes smudged or dark image of Person A correctly', () async {
-      final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
+      final facekit = FaceKit(
+        config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+      );
       const size = 64;
 
       final bytesA = Uint8List(size * size);
@@ -79,11 +91,7 @@ void main() {
       }
       final imgA = FaceImage.fromGrayscale(bytesA, size, size);
 
-      await facekit.register(
-        image: imgA,
-        personId: 'EMP_A',
-        name: 'Person A',
-      );
+      await facekit.register(image: imgA, personId: 'EMP_A', name: 'Person A');
 
       // Query with darkened/smudged version of Person A
       final bytesASmudged = Uint8List(size * size);
@@ -99,41 +107,45 @@ void main() {
       expect(result.name, equals('Person A'));
     });
 
-    test('rejects Person B when Person A is registered (no false match)', () async {
-      final facekit = FaceKit(config: const FaceKitConfig(logLevel: FaceKitLogLevel.none));
-      const size = 64;
+    test(
+      'rejects Person B when Person A is registered (no false match)',
+      () async {
+        final facekit = FaceKit(
+          config: const FaceKitConfig(logLevel: FaceKitLogLevel.none),
+        );
+        const size = 64;
 
-      final bytesA = Uint8List(size * size);
-      for (var y = 0; y < size; y++) {
-        for (var x = 0; x < size; x++) {
-          final idx = y * size + x;
-          bytesA[idx] = 130;
-          if (y >= 10 && y <= 25 && x >= 15 && x <= 45) bytesA[idx] = 40;
+        final bytesA = Uint8List(size * size);
+        for (var y = 0; y < size; y++) {
+          for (var x = 0; x < size; x++) {
+            final idx = y * size + x;
+            bytesA[idx] = 130;
+            if (y >= 10 && y <= 25 && x >= 15 && x <= 45) bytesA[idx] = 40;
+          }
         }
-      }
-      final imgA = FaceImage.fromGrayscale(bytesA, size, size);
+        final imgA = FaceImage.fromGrayscale(bytesA, size, size);
 
-      await facekit.register(
-        image: imgA,
-        personId: 'EMP_A',
-        name: 'Person A',
-      );
+        await facekit.register(
+          image: imgA,
+          personId: 'EMP_A',
+          name: 'Person A',
+        );
 
-      // Person B has completely different feature layout
-      final bytesB = Uint8List(size * size);
-      for (var y = 0; y < size; y++) {
-        for (var x = 0; x < size; x++) {
-          final idx = y * size + x;
-          bytesB[idx] = 70;
-          if (y >= 35 && y <= 55 && x >= 30 && x <= 60) bytesB[idx] = 220;
+        // Person B has completely different feature layout
+        final bytesB = Uint8List(size * size);
+        for (var y = 0; y < size; y++) {
+          for (var x = 0; x < size; x++) {
+            final idx = y * size + x;
+            bytesB[idx] = 70;
+            if (y >= 35 && y <= 55 && x >= 30 && x <= 60) bytesB[idx] = 220;
+          }
         }
-      }
-      final imgB = FaceImage.fromGrayscale(bytesB, size, size);
+        final imgB = FaceImage.fromGrayscale(bytesB, size, size);
 
-      final result = await facekit.recognize(imgB);
-      expect(result.matched, isFalse);
-      expect(result.personId, equals('UNKNOWN'));
-    });
+        final result = await facekit.recognize(imgB);
+        expect(result.matched, isFalse);
+        expect(result.personId, equals('UNKNOWN'));
+      },
+    );
   });
 }
-

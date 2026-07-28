@@ -7,9 +7,15 @@ import 'face_image.dart';
 /// Pure Dart computer vision and image processing engine.
 abstract class ImageProcessor {
   /// Bilinear resize transformation.
-  static FaceImage resizeBilinear(FaceImage src, int targetWidth, int targetHeight) {
+  static FaceImage resizeBilinear(
+    FaceImage src,
+    int targetWidth,
+    int targetHeight,
+  ) {
     if (targetWidth <= 0 || targetHeight <= 0) {
-      throw ValidationException('Target dimensions must be positive: $targetWidth x $targetHeight');
+      throw ValidationException(
+        'Target dimensions must be positive: $targetWidth x $targetHeight',
+      );
     }
     if (src.width == targetWidth && src.height == targetHeight) {
       return src.clone();
@@ -55,7 +61,8 @@ abstract class ImageProcessor {
         final idx11 = offY1 + x1 * channels;
 
         for (var c = 0; c < channels; c++) {
-          final val = w00 * srcBuf[idx00 + c] +
+          final val =
+              w00 * srcBuf[idx00 + c] +
               w10 * srcBuf[idx10 + c] +
               w01 * srcBuf[idx01 + c] +
               w11 * srcBuf[idx11 + c];
@@ -75,7 +82,11 @@ abstract class ImageProcessor {
   }
 
   /// Rotates an image around its center by [angleRadians] using inverse bilinear mapping.
-  static FaceImage rotate(FaceImage src, double angleRadians, {Pixel fillColor = const Pixel(0, 0, 0)}) {
+  static FaceImage rotate(
+    FaceImage src,
+    double angleRadians, {
+    Pixel fillColor = const Pixel(0, 0, 0),
+  }) {
     if (angleRadians == 0.0) {
       return src.clone();
     }
@@ -123,7 +134,8 @@ abstract class ImageProcessor {
           final idx11 = offY1 + x1 * channels;
 
           for (var c = 0; c < channels; c++) {
-            final val = (1 - wx) * (1 - wy) * srcBuf[idx00 + c] +
+            final val =
+                (1 - wx) * (1 - wy) * srcBuf[idx00 + c] +
                 wx * (1 - wy) * srcBuf[idx10 + c] +
                 (1 - wx) * wy * srcBuf[idx01 + c] +
                 wx * wy * srcBuf[idx11 + c];
@@ -154,12 +166,25 @@ abstract class ImageProcessor {
   }
 
   /// Extracts a sub-rectangle region from an image.
-  static FaceImage crop(FaceImage src, int x, int y, int cropWidth, int cropHeight) {
+  static FaceImage crop(
+    FaceImage src,
+    int x,
+    int y,
+    int cropWidth,
+    int cropHeight,
+  ) {
     if (cropWidth <= 0 || cropHeight <= 0) {
-      throw ValidationException('Crop size must be positive: $cropWidth x $cropHeight');
+      throw ValidationException(
+        'Crop size must be positive: $cropWidth x $cropHeight',
+      );
     }
-    if (x < 0 || y < 0 || x + cropWidth > src.width || y + cropHeight > src.height) {
-      throw ValidationException('Crop rectangle ($x, $y, $cropWidth, $cropHeight) out of image bounds (${src.width} x ${src.height})');
+    if (x < 0 ||
+        y < 0 ||
+        x + cropWidth > src.width ||
+        y + cropHeight > src.height) {
+      throw ValidationException(
+        'Crop rectangle ($x, $y, $cropWidth, $cropHeight) out of image bounds (${src.width} x ${src.height})',
+      );
     }
 
     final channels = src.channels;
@@ -287,9 +312,15 @@ abstract class ImageProcessor {
   }
 
   /// Separable Gaussian Spatial Smoothing Blur.
-  static FaceImage gaussianBlur(FaceImage src, {int kernelSize = 5, double sigma = 1.0}) {
+  static FaceImage gaussianBlur(
+    FaceImage src, {
+    int kernelSize = 5,
+    double sigma = 1.0,
+  }) {
     if (kernelSize % 2 == 0 || kernelSize < 3) {
-      throw ValidationException('Gaussian kernel size must be an odd integer >= 3, got $kernelSize');
+      throw ValidationException(
+        'Gaussian kernel size must be an odd integer >= 3, got $kernelSize',
+      );
     }
 
     final radius = kernelSize ~/ 2;
@@ -355,12 +386,21 @@ abstract class ImageProcessor {
       final r2 = (y + 1) * w;
 
       for (var x = 1; x < w - 1; x++) {
-        final gx = -srcBuf[r0 + x - 1] + srcBuf[r0 + x + 1] -
-            2 * srcBuf[r1 + x - 1] + 2 * srcBuf[r1 + x + 1] -
-            srcBuf[r2 + x - 1] + srcBuf[r2 + x + 1];
+        final gx =
+            -srcBuf[r0 + x - 1] +
+            srcBuf[r0 + x + 1] -
+            2 * srcBuf[r1 + x - 1] +
+            2 * srcBuf[r1 + x + 1] -
+            srcBuf[r2 + x - 1] +
+            srcBuf[r2 + x + 1];
 
-        final gy = -srcBuf[r0 + x - 1] - 2 * srcBuf[r0 + x] - srcBuf[r0 + x + 1] +
-            srcBuf[r2 + x - 1] + 2 * srcBuf[r2 + x] + srcBuf[r2 + x + 1];
+        final gy =
+            -srcBuf[r0 + x - 1] -
+            2 * srcBuf[r0 + x] -
+            srcBuf[r0 + x + 1] +
+            srcBuf[r2 + x - 1] +
+            2 * srcBuf[r2 + x] +
+            srcBuf[r2 + x + 1];
 
         final mag = math.sqrt(gx * gx + gy * gy).round().clamp(0, 255);
         dstBuf[r1 + x] = mag;
@@ -552,7 +592,8 @@ abstract class ImageProcessor {
         }
 
         // Feature 7..8: Cell HOG histogram (L2 normalized)
-        final hogMagSum = math.sqrt(hogBins[0] * hogBins[0] + hogBins[1] * hogBins[1]) + 1e-7;
+        final hogMagSum =
+            math.sqrt(hogBins[0] * hogBins[0] + hogBins[1] * hogBins[1]) + 1e-7;
         features[featIdx++] = hogBins[0] / hogMagSum;
         features[featIdx++] = hogBins[1] / hogMagSum;
       }
@@ -571,8 +612,4 @@ abstract class ImageProcessor {
 
     return features;
   }
-
-
-
 }
-

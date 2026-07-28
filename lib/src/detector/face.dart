@@ -39,5 +39,6 @@ class Face {
   }
 
   @override
-  String toString() => 'Face(bbox: $boundingBox, confidence: ${(confidence * 100).toStringAsFixed(1)}%)';
+  String toString() =>
+      'Face(bbox: $boundingBox, confidence: ${(confidence * 100).toStringAsFixed(1)}%)';
 }

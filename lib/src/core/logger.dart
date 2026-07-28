@@ -25,10 +25,7 @@ class FaceKitLogger {
   void Function(String message)? onLog;
 
   /// Creates a [FaceKitLogger] with specified [level] and optional [onLog] callback.
-  FaceKitLogger({
-    this.level = FaceKitLogLevel.info,
-    this.onLog,
-  });
+  FaceKitLogger({this.level = FaceKitLogLevel.info, this.onLog});
 
   /// Logs a debug message.
   void debug(String message) {

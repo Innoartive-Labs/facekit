@@ -11,14 +11,11 @@ class FaceDetector {
   final FaceKitConfig config;
 
   /// Creates a [FaceDetector] with optional custom [config].
-  FaceDetector({FaceKitConfig? config}) : config = config ?? FaceKitConfig.defaultConfig;
+  FaceDetector({FaceKitConfig? config})
+    : config = config ?? FaceKitConfig.defaultConfig;
 
   /// Detects faces within the provided [image].
-  List<Face> detectFaces(
-    FaceImage image, {
-    double? threshold,
-    int? maxFaces,
-  }) {
+  List<Face> detectFaces(FaceImage image, {double? threshold, int? maxFaces}) {
     final confThreshold = threshold ?? config.detectionThreshold;
     final maxLimit = maxFaces ?? config.maxDetectedFaces;
 
@@ -27,7 +24,11 @@ class FaceDetector {
     // Fallback Pass 1: If no face found in raw image, try histogram-equalized (contrast boosted) image
     if (finalFaces.isEmpty) {
       final enhancedImg = ImageProcessor.histogramEqualization(image);
-      finalFaces = _runPyramidDetection(enhancedImg, confThreshold * 0.7, maxLimit);
+      finalFaces = _runPyramidDetection(
+        enhancedImg,
+        confThreshold * 0.7,
+        maxLimit,
+      );
     }
 
     // Fallback Pass 2: Graceful fallback for single-face query when image contains a face but contrast is extreme
@@ -52,7 +53,11 @@ class FaceDetector {
     return finalFaces;
   }
 
-  List<Face> _runPyramidDetection(FaceImage image, double confThreshold, int maxLimit) {
+  List<Face> _runPyramidDetection(
+    FaceImage image,
+    double confThreshold,
+    int maxLimit,
+  ) {
     final rawProposals = <Face>[];
     const minWinSize = 24;
 
@@ -155,7 +160,6 @@ class FaceDetector {
 
     return score.clamp(0.0, 1.0);
   }
-
 
   /// Non-Maximum Suppression (NMS) algorithm.
   List<Face> _applyNms(List<Face> proposals, {required double iouThreshold}) {

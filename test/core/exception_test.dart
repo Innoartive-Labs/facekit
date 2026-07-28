@@ -7,7 +7,12 @@ void main() {
       const ex = InvalidImageException('Corrupt buffer', 'Zero length');
       expect(ex.message, equals('Corrupt buffer'));
       expect(ex.details, equals('Zero length'));
-      expect(ex.toString(), contains('InvalidImageException: Corrupt buffer (Details: Zero length)'));
+      expect(
+        ex.toString(),
+        contains(
+          'InvalidImageException: Corrupt buffer (Details: Zero length)',
+        ),
+      );
     });
 
     test('FaceDetectionException formatting without details', () {
@@ -17,7 +22,10 @@ void main() {
 
     test('All exception types inherit from FaceKitException', () {
       expect(const InvalidImageException('msg'), isA<FaceKitException>());
-      expect(const ModelInitializationException('msg'), isA<FaceKitException>());
+      expect(
+        const ModelInitializationException('msg'),
+        isA<FaceKitException>(),
+      );
       expect(const FaceDetectionException('msg'), isA<FaceKitException>());
       expect(const DatabaseException('msg'), isA<FaceKitException>());
       expect(const SerializationException('msg'), isA<FaceKitException>());

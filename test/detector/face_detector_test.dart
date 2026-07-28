@@ -43,7 +43,9 @@ void main() {
       }
 
       final img = FaceImage.fromGrayscale(bytes, size, size);
-      final detector = FaceDetector(config: const FaceKitConfig(detectionThreshold: 0.3));
+      final detector = FaceDetector(
+        config: const FaceKitConfig(detectionThreshold: 0.3),
+      );
 
       final faces = detector.detectFaces(img);
 

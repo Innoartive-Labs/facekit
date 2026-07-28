@@ -56,7 +56,6 @@ class FaceKitConfig {
     this.logLevel = FaceKitLogLevel.info,
   });
 
-
   /// Default configuration instance.
   static const FaceKitConfig defaultConfig = FaceKitConfig();
 
@@ -99,15 +98,15 @@ class FaceKitConfig {
 
   @override
   int get hashCode => Object.hash(
-        detectionThreshold,
-        matchingThreshold,
-        distanceMetric,
-        landmarkModel,
-        embeddingDimension,
-        targetFaceSize,
-        maxDetectedFaces,
-        logLevel,
-      );
+    detectionThreshold,
+    matchingThreshold,
+    distanceMetric,
+    landmarkModel,
+    embeddingDimension,
+    targetFaceSize,
+    maxDetectedFaces,
+    logLevel,
+  );
 
   @override
   String toString() {

@@ -14,7 +14,10 @@ abstract class FaceSerializer {
   static const int currentVersion = 1;
 
   /// Encodes a [PersonRecord] and optional [landmarks] into a `.face` binary byte buffer.
-  static Uint8List encode(PersonRecord record, {List<FaceLandmark>? landmarks}) {
+  static Uint8List encode(
+    PersonRecord record, {
+    List<FaceLandmark>? landmarks,
+  }) {
     final builder = BytesBuilder();
 
     // 1. Magic Header (4 bytes: 'FACE')
@@ -78,13 +81,18 @@ abstract class FaceSerializer {
   /// Decodes a `.face` binary byte buffer into a [PersonRecord].
   static PersonRecord decode(Uint8List bytes) {
     if (bytes.length < 16) {
-      throw const SerializationException('Corrupt .face binary file: byte length too short');
+      throw const SerializationException(
+        'Corrupt .face binary file: byte length too short',
+      );
     }
 
     // Verify Checksum
     final payloadLen = bytes.length - 4;
     final payload = Uint8List.sublistView(bytes, 0, payloadLen);
-    final expectedChecksum = ByteData.sublistView(bytes, payloadLen).getUint32(0);
+    final expectedChecksum = ByteData.sublistView(
+      bytes,
+      payloadLen,
+    ).getUint32(0);
     final actualChecksum = _computeCrc32(payload);
 
     if (actualChecksum != expectedChecksum) {
@@ -100,7 +108,9 @@ abstract class FaceSerializer {
     final magic = data.getUint32(offset);
     offset += 4;
     if (magic != magicHeader) {
-      throw SerializationException('Invalid .face magic header: 0x${magic.toRadixString(16)}');
+      throw SerializationException(
+        'Invalid .face magic header: 0x${magic.toRadixString(16)}',
+      );
     }
 
     // 2. Format Version

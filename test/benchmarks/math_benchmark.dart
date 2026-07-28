@@ -20,7 +20,9 @@ void main() {
   }
   vSw.stop();
   final vMs = vSw.elapsedMilliseconds / vIters;
-  print('Vector Dot Product (dim: $vecSize): ${vMs.toStringAsFixed(3)} ms/iter (Result: $dotSum)');
+  print(
+    'Vector Dot Product (dim: $vecSize): ${vMs.toStringAsFixed(3)} ms/iter (Result: $dotSum)',
+  );
 
   // 2. Matrix Multiplication Benchmark (64x64)
   final m1 = Matrix(64, 64);
@@ -48,7 +50,9 @@ void main() {
   final cSw = Stopwatch()..start();
   MathOperations.conv2d(inputTensor, kernelTensor, padding: 1);
   cSw.stop();
-  print('Conv2D (In:[32, 28, 28], Kernel:[32, 32, 3, 3]): ${cSw.elapsedMilliseconds} ms');
+  print(
+    'Conv2D (In:[32, 28, 28], Kernel:[32, 32, 3, 3]): ${cSw.elapsedMilliseconds} ms',
+  );
 
   print('\nMath Engine benchmarks complete successfully!');
 }

@@ -16,14 +16,18 @@ class Matrix {
   /// Creates a zero-initialized [Matrix] of dimension [rows] x [cols].
   Matrix(this.rows, this.cols) : data = Float32List(rows * cols) {
     if (rows <= 0 || cols <= 0) {
-      throw ValidationException('Matrix dimensions must be positive ($rows x $cols)');
+      throw ValidationException(
+        'Matrix dimensions must be positive ($rows x $cols)',
+      );
     }
   }
 
   /// Creates a [Matrix] wrapping a flat [Float32List] buffer.
   Matrix.fromFloat32List(this.rows, this.cols, this.data) {
     if (rows <= 0 || cols <= 0) {
-      throw ValidationException('Matrix dimensions must be positive ($rows x $cols)');
+      throw ValidationException(
+        'Matrix dimensions must be positive ($rows x $cols)',
+      );
     }
     if (data.length != rows * cols) {
       throw ValidationException(
@@ -156,7 +160,9 @@ class Matrix {
   /// Element-wise subtraction: C = this - [other].
   Matrix subtract(Matrix other) {
     if (rows != other.rows || cols != other.cols) {
-      throw const ValidationException('Matrix dimension mismatch for subtraction');
+      throw const ValidationException(
+        'Matrix dimension mismatch for subtraction',
+      );
     }
     final result = Matrix(rows, cols);
     final total = rows * cols;
@@ -183,7 +189,9 @@ class Matrix {
   /// Extracts column [c] as a [Vector].
   Vector getCol(int c) {
     if (c < 0 || c >= cols) {
-      throw ValidationException('Column index $c out of bounds (0..${cols - 1})');
+      throw ValidationException(
+        'Column index $c out of bounds (0..${cols - 1})',
+      );
     }
     final colVec = Vector(rows);
     for (var i = 0; i < rows; i++) {
