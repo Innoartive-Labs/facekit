@@ -9,12 +9,7 @@ topics:
   - facial-recognition
   - biometrics
   - computer-vision
-  - privacy
   - offline
-  - dart
-  - flutter
-
-
 
 environment:
   sdk: ^3.10.8
